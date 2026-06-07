@@ -30,17 +30,6 @@ export default function Hero({ introReady }: { introReady: boolean }) {
 
   return (
     <section className="pt-28 md:pt-32 pb-16 md:pb-20 px-4 md:px-6 text-center max-w-[1280px] mx-auto">
-      {/* Badge pill */}
-      <motion.div
-        {...FI(0, introReady)}
-        className="inline-flex max-w-full flex-wrap items-center justify-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 mb-7 md:mb-8 rounded-full border border-[#1e3a2f] bg-[#0a1a14] text-[#22c55e] text-[10px] md:text-xs"
-        style={{ fontFamily: "var(--font-jetbrains), monospace" }}
-      >
-        <span className="w-1.5 h-1.5 rounded-full bg-[#22c55e] animate-pulse shrink-0" />
-        Solana mainnet / v1.0 active{" "}
-        <span className="opacity-60">-&gt;</span>
-      </motion.div>
-
       {/* Headline */}
       <motion.h1
         {...FI(0.1, introReady)}
