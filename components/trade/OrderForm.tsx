@@ -35,7 +35,7 @@ export default function OrderForm({ markPrice }: { markPrice: number | null }) {
 
   return (
     <div
-      className="flex flex-col h-full bg-[#111111] overflow-y-auto"
+      className="flex flex-col h-full bg-[#111111] overflow-y-auto trade-scroll"
       style={{ scrollbarWidth: "none" }}
     >
       {/* Order type tabs */}
@@ -44,7 +44,7 @@ export default function OrderForm({ markPrice }: { markPrice: number | null }) {
           <button
             key={t}
             onClick={() => setOrderType(t)}
-            className={`flex-1 py-2 text-[11px] capitalize transition-colors border-b-2 ${
+            className={`flex-1 min-h-11 md:min-h-0 py-2 text-[11px] capitalize transition-colors border-b-2 ${
               orderType === t
                 ? "text-white border-white"
                 : "text-[#555] border-transparent hover:text-[#999]"
@@ -61,7 +61,7 @@ export default function OrderForm({ markPrice }: { markPrice: number | null }) {
         <div className="grid grid-cols-2 gap-1">
           <button
             onClick={() => setSide("long")}
-            className={`py-2 text-xs font-semibold transition-colors ${
+            className={`min-h-11 md:min-h-0 py-2 text-xs font-semibold transition-colors ${
               side === "long"
                 ? "bg-[#1a3d1a] text-[#22c55e] border border-[#22c55e]/40"
                 : "bg-[#1a1a1a] text-[#555] border border-[#222] hover:text-[#888]"
@@ -72,7 +72,7 @@ export default function OrderForm({ markPrice }: { markPrice: number | null }) {
           </button>
           <button
             onClick={() => setSide("short")}
-            className={`py-2 text-xs font-semibold transition-colors ${
+            className={`min-h-11 md:min-h-0 py-2 text-xs font-semibold transition-colors ${
               side === "short"
                 ? "bg-[#3d1a1a] text-[#ef4444] border border-[#ef4444]/40"
                 : "bg-[#1a1a1a] text-[#555] border border-[#222] hover:text-[#888]"
@@ -94,7 +94,7 @@ export default function OrderForm({ markPrice }: { markPrice: number | null }) {
               value={limitPrice}
               onChange={(e) => setLimitPrice(e.target.value)}
               placeholder={liveMarkPrice.toFixed(2)}
-              className="w-full bg-[#0a0a0a] border border-[#222] text-[12px] text-[#ccc] px-2 py-1.5 outline-none hover:border-[#333] focus:border-[#444] placeholder:text-[#333]"
+              className="w-full min-h-11 md:min-h-0 bg-[#0a0a0a] border border-[#222] text-[12px] text-[#ccc] px-2 py-1.5 outline-none hover:border-[#333] focus:border-[#444] placeholder:text-[#333]"
               style={{ fontFamily: "var(--font-jetbrains), monospace" }}
             />
           </div>
@@ -114,12 +114,12 @@ export default function OrderForm({ markPrice }: { markPrice: number | null }) {
               value={payAmount}
               onChange={(e) => setPayAmount(e.target.value, entryPrice)}
               placeholder="0.00"
-              className="flex-1 bg-transparent text-[12px] text-[#ccc] px-2 py-1.5 outline-none placeholder:text-[#333]"
+              className="min-h-11 md:min-h-0 flex-1 bg-transparent text-[12px] text-[#ccc] px-2 py-1.5 outline-none placeholder:text-[#333]"
               style={{ fontFamily: "var(--font-jetbrains), monospace" }}
             />
             <button
               onClick={() => setPayAmount((usdcBalance * 0.78).toFixed(2), entryPrice)}
-              className="text-[10px] text-[#38bdf8] px-2 hover:text-white transition-colors"
+              className="min-h-11 md:min-h-0 text-[10px] text-[#38bdf8] px-3 md:px-2 hover:text-white transition-colors"
               style={{ fontFamily: "var(--font-jetbrains), monospace" }}
             >
               MAX
@@ -137,7 +137,7 @@ export default function OrderForm({ markPrice }: { markPrice: number | null }) {
             value={size}
             onChange={(e) => setSize(e.target.value, entryPrice)}
             placeholder="0.000"
-            className="w-full bg-[#0a0a0a] border border-[#222] text-[12px] text-[#ccc] px-2 py-1.5 outline-none hover:border-[#333] focus:border-[#444] placeholder:text-[#333] mb-1.5"
+            className="w-full min-h-11 md:min-h-0 bg-[#0a0a0a] border border-[#222] text-[12px] text-[#ccc] px-2 py-1.5 outline-none hover:border-[#333] focus:border-[#444] placeholder:text-[#333] mb-1.5"
             style={{ fontFamily: "var(--font-jetbrains), monospace" }}
           />
           {/* % quick-fill */}
@@ -146,7 +146,7 @@ export default function OrderForm({ markPrice }: { markPrice: number | null }) {
               <button
                 key={pct}
                 onClick={() => handlePct(pct / 100)}
-                className="text-[10px] text-[#555] bg-[#0a0a0a] border border-[#1a1a1a] py-0.5 hover:text-[#ccc] hover:border-[#333] transition-colors"
+                className="min-h-11 md:min-h-0 text-[10px] text-[#555] bg-[#0a0a0a] border border-[#1a1a1a] py-0.5 hover:text-[#ccc] hover:border-[#333] transition-colors"
                 style={{ fontFamily: "var(--font-jetbrains), monospace" }}
               >
                 {pct}%
@@ -174,13 +174,12 @@ export default function OrderForm({ markPrice }: { markPrice: number | null }) {
               max={50}
               value={leverage}
               onChange={(e) => setLeverage(Number(e.target.value))}
-              className="absolute inset-0 opacity-0 w-full cursor-pointer"
-              style={{ height: "12px", top: "-4.5px" }}
+              className="absolute left-0 -top-5 h-11 md:-top-[4.5px] md:h-3 opacity-0 w-full cursor-pointer"
             />
           </div>
           <div className="flex justify-between text-[9px] text-[#333]" style={{ fontFamily: "var(--font-jetbrains), monospace" }}>
             {[1, 10, 20, 30, 50].map((v) => (
-              <button key={v} onClick={() => setLeverage(v)} className="hover:text-[#666]">{v}×</button>
+              <button key={v} onClick={() => setLeverage(v)} className="min-h-11 min-w-11 md:min-h-0 md:min-w-0 hover:text-[#666]">{v}×</button>
             ))}
           </div>
         </div>
@@ -203,7 +202,7 @@ export default function OrderForm({ markPrice }: { markPrice: number | null }) {
         {/* TP/SL toggle */}
         <button
           onClick={() => setShowTpSl(!showTpSl)}
-          className="flex items-center justify-between text-[10px] text-[#555] hover:text-[#888] transition-colors"
+          className="flex min-h-11 md:min-h-0 items-center justify-between text-[10px] text-[#555] hover:text-[#888] transition-colors"
           style={{ fontFamily: "var(--font-jetbrains), monospace" }}
         >
           <span>TP / SL</span>
@@ -217,7 +216,7 @@ export default function OrderForm({ markPrice }: { markPrice: number | null }) {
                 type="checkbox"
                 checked={tpEnabled}
                 onChange={(e) => setTpEnabled(e.target.checked)}
-                className="accent-[#22c55e] w-3 h-3"
+                className="accent-[#22c55e] w-5 h-5 md:w-3 md:h-3"
               />
               <label className="text-[10px] text-[#555] w-16" style={{ fontFamily: "var(--font-jetbrains), monospace" }}>Take Profit</label>
               <input
@@ -226,7 +225,7 @@ export default function OrderForm({ markPrice }: { markPrice: number | null }) {
                 onChange={(e) => setTpPrice(e.target.value)}
                 disabled={!tpEnabled}
                 placeholder="Price"
-                className="flex-1 bg-[#0a0a0a] border border-[#222] text-[11px] text-[#ccc] px-2 py-1 outline-none placeholder:text-[#333] disabled:opacity-30"
+                className="min-h-11 md:min-h-0 flex-1 bg-[#0a0a0a] border border-[#222] text-[11px] text-[#ccc] px-2 py-1 outline-none placeholder:text-[#333] disabled:opacity-30"
                 style={{ fontFamily: "var(--font-jetbrains), monospace" }}
               />
             </div>
@@ -235,7 +234,7 @@ export default function OrderForm({ markPrice }: { markPrice: number | null }) {
                 type="checkbox"
                 checked={slEnabled}
                 onChange={(e) => setSlEnabled(e.target.checked)}
-                className="accent-[#ef4444] w-3 h-3"
+                className="accent-[#ef4444] w-5 h-5 md:w-3 md:h-3"
               />
               <label className="text-[10px] text-[#555] w-16" style={{ fontFamily: "var(--font-jetbrains), monospace" }}>Stop Loss</label>
               <input
@@ -244,7 +243,7 @@ export default function OrderForm({ markPrice }: { markPrice: number | null }) {
                 onChange={(e) => setSlPrice(e.target.value)}
                 disabled={!slEnabled}
                 placeholder="Price"
-                className="flex-1 bg-[#0a0a0a] border border-[#222] text-[11px] text-[#ccc] px-2 py-1 outline-none placeholder:text-[#333] disabled:opacity-30"
+                className="min-h-11 md:min-h-0 flex-1 bg-[#0a0a0a] border border-[#222] text-[11px] text-[#ccc] px-2 py-1 outline-none placeholder:text-[#333] disabled:opacity-30"
                 style={{ fontFamily: "var(--font-jetbrains), monospace" }}
               />
             </div>
@@ -255,7 +254,7 @@ export default function OrderForm({ markPrice }: { markPrice: number | null }) {
         {walletConnected ? (
           <button
             onClick={() => placeOrder(entryPrice)}
-            className="w-full py-2.5 text-xs font-bold transition-colors"
+            className="w-full min-h-11 md:min-h-0 py-2.5 text-xs font-bold transition-colors"
             style={{
               fontFamily: "var(--font-jetbrains), monospace",
               backgroundColor: side === "long" ? "#1a3d1a" : "#3d1a1a",
@@ -268,7 +267,7 @@ export default function OrderForm({ markPrice }: { markPrice: number | null }) {
         ) : (
           <button
             onClick={() => setShowWalletModal(true)}
-            className="w-full py-2.5 text-xs font-bold text-[#999] bg-[#1a1a1a] border border-[#333] hover:border-[#555] hover:text-white transition-colors"
+            className="w-full min-h-11 md:min-h-0 py-2.5 text-xs font-bold text-[#999] bg-[#1a1a1a] border border-[#333] hover:border-[#555] hover:text-white transition-colors"
             style={{ fontFamily: "var(--font-jetbrains), monospace" }}
           >
             Connect Wallet

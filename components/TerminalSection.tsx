@@ -106,14 +106,14 @@ function CodeBlock({
   return (
     <div ref={ref} className="flex flex-col border border-[#1a1a1c] bg-[#0d0d0f] overflow-hidden">
       {/* Title bar */}
-      <div className="flex items-center justify-between px-4 py-2.5 border-b border-[#1a1a1c] bg-[#0a0a0c]">
+      <div className="flex items-center justify-between gap-3 px-3 md:px-4 py-2.5 border-b border-[#1a1a1c] bg-[#0a0a0c]">
         <div className="flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
           <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
           <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
         </div>
         <span
-          className="text-[11px] text-[#52525b]"
+          className="min-w-0 truncate text-[10px] md:text-[11px] text-[#52525b]"
           style={{ fontFamily: "var(--font-jetbrains), monospace" }}
         >
           {title}
@@ -128,7 +128,7 @@ function CodeBlock({
 
       {/* Code body */}
       <pre
-        className="text-xs text-[#a1a1aa] leading-6 p-5 overflow-x-auto"
+        className="text-[11px] md:text-xs text-[#a1a1aa] leading-6 p-4 md:p-5 overflow-x-auto trade-scroll"
         style={{ fontFamily: "var(--font-jetbrains), monospace" }}
       >
         <code
@@ -143,7 +143,7 @@ function CodeBlock({
 
 export default function TerminalSection() {
   return (
-    <section className="py-20 px-6 border-t border-[#1a1a1c]">
+    <section className="py-16 md:py-20 px-4 md:px-6 border-t border-[#1a1a1c]">
       <div className="max-w-[1280px] mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -159,7 +159,7 @@ export default function TerminalSection() {
             CLIENT ACCESS
           </p>
           <h2
-            className="text-3xl font-bold text-white"
+            className="text-2xl md:text-3xl font-bold text-white"
             style={{ fontFamily: "var(--font-jetbrains), monospace" }}
           >
             One API surface for every desk.
@@ -194,7 +194,7 @@ export default function TerminalSection() {
                 runtime without wrapping custody.
               </p>
               <code
-                className="inline-block mt-2 text-xs text-[#22c55e] bg-[#0a1a14] border border-[#1e3a2f] px-3 py-1.5 rounded"
+                className="inline-block max-w-full overflow-x-auto mt-2 text-xs text-[#22c55e] bg-[#0a1a14] border border-[#1e3a2f] px-3 py-1.5 rounded"
                 style={{ fontFamily: "var(--font-jetbrains), monospace" }}
               >
                 $ npm install @fluxperp/sdk
@@ -225,7 +225,7 @@ export default function TerminalSection() {
                 slot ids so fills can be reconciled against settlement.
               </p>
               <code
-                className="inline-block mt-2 text-xs text-[#22c55e] bg-[#0a1a14] border border-[#1e3a2f] px-3 py-1.5 rounded"
+                className="inline-block max-w-full overflow-x-auto mt-2 text-xs text-[#22c55e] bg-[#0a1a14] border border-[#1e3a2f] px-3 py-1.5 rounded"
                 style={{ fontFamily: "var(--font-jetbrains), monospace" }}
               >
                 POST https://api.fluxperp.xyz/v1/orders

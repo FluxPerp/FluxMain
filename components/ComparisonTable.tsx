@@ -55,7 +55,7 @@ const ROWS = [
 
 export default function ComparisonTable() {
   return (
-    <section className="py-20 px-6 border-t border-[#1a1a1c]">
+    <section className="py-16 md:py-20 px-4 md:px-6 border-t border-[#1a1a1c]">
       <motion.div
         className="max-w-[1280px] mx-auto"
         initial={{ opacity: 0, y: 20 }}
@@ -73,7 +73,7 @@ export default function ComparisonTable() {
             PERF CHECK
           </p>
           <h2
-            className="text-3xl font-bold text-white"
+            className="text-2xl md:text-3xl font-bold text-white"
             style={{ fontFamily: "var(--font-jetbrains), monospace" }}
           >
             Latency is an accounting problem.
@@ -83,9 +83,9 @@ export default function ComparisonTable() {
           </p>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="-mx-4 md:mx-0 overflow-x-auto trade-scroll px-4 md:px-0 pb-2">
           <table
-            className="w-full border-collapse"
+            className="w-full min-w-[720px] border-collapse"
             style={{ fontFamily: "var(--font-jetbrains), monospace" }}
           >
             <thead>

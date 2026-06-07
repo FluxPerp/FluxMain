@@ -62,9 +62,9 @@ export default function TopBar({ ticker }: { ticker: TickerStreamState }) {
     mk.symbol.toLowerCase().includes(pairSearch.toLowerCase()) ||
     mk.baseAsset.toLowerCase().includes(pairSearch.toLowerCase())
   );
-  const stats: { label: string; value: string | null; color: string; width?: string }[] = [
+  const stats: { label: string; value: string | null; color: string; width?: string; mobile?: boolean }[] = [
     { label: "Index", value: markPrice !== null ? `$${formatPrice(markPrice, activeMarket)}` : null, color: "#777" },
-    { label: "24h Chg", value: changePct !== null ? formatSignedPercent(changePct) : null, color: changeColor },
+    { label: "24h Chg", value: changePct !== null ? formatSignedPercent(changePct) : null, color: changeColor, mobile: true },
     { label: "24h High", value: ticker.high !== null ? `$${formatPrice(ticker.high, activeMarket)}` : null, color: "#ccc" },
     { label: "24h Low", value: ticker.low !== null ? `$${formatPrice(ticker.low, activeMarket)}` : null, color: "#ccc" },
     { label: "24h Vol", value: ticker.volume !== null ? formatVolume(ticker.volume) : null, color: "#ccc", width: "w-16" },
@@ -73,10 +73,10 @@ export default function TopBar({ ticker }: { ticker: TickerStreamState }) {
   ];
 
   return (
-    <div className="flex items-center h-10 bg-[#111111] border-b border-[#1e1e1e] px-3 gap-4 shrink-0 overflow-x-auto">
+    <div className="flex items-center min-h-14 md:h-10 bg-[#111111] border-b border-[#1e1e1e] px-2 md:px-3 gap-x-2 gap-y-1 md:gap-4 shrink-0 flex-wrap md:flex-nowrap overflow-visible md:overflow-x-auto">
       <Link
         href="/"
-        className="flex items-center gap-2 h-full pr-4 border-r border-[#1e1e1e] shrink-0 text-sm font-bold text-white hover:text-[#38bdf8] transition-colors"
+        className="order-1 flex min-h-11 md:min-h-0 md:h-full w-11 md:w-auto items-center justify-center md:justify-start gap-2 md:pr-4 md:border-r md:border-[#1e1e1e] shrink-0 text-sm font-bold text-white hover:text-[#38bdf8] transition-colors"
         style={{ fontFamily: "var(--font-jetbrains), monospace" }}
       >
         <Image
@@ -86,14 +86,14 @@ export default function TopBar({ ticker }: { ticker: TickerStreamState }) {
           height={20}
           className="h-5 w-5 object-contain"
         />
-        <span>FluxPerp</span>
+        <span className="hidden md:inline">FluxPerp</span>
       </Link>
 
       {/* Pair selector */}
-      <div className="relative shrink-0" ref={dropRef}>
+      <div className="relative order-2 shrink-0" ref={dropRef}>
         <button
           onClick={() => { setShowPairSelector(!showPairSelector); setPairSearch(""); }}
-          className="flex items-center gap-1.5 text-sm font-semibold text-white hover:text-[#38bdf8] transition-colors"
+          className="flex min-h-11 md:min-h-0 items-center gap-1.5 px-1 text-xs md:text-sm font-semibold text-white hover:text-[#38bdf8] transition-colors"
           style={{ fontFamily: "var(--font-jetbrains), monospace" }}
         >
           {activeMarket}
@@ -103,14 +103,14 @@ export default function TopBar({ ticker }: { ticker: TickerStreamState }) {
         </button>
 
         {showPairSelector && (
-          <div className="absolute top-full left-0 mt-1 w-56 bg-[#111111] border border-[#1e1e1e] z-50">
+          <div className="absolute top-full left-0 mt-1 w-[calc(100vw-2rem)] max-w-72 md:w-56 max-md:fixed max-md:left-4 max-md:right-4 max-md:top-14 max-md:w-auto max-md:max-w-none bg-[#111111] border border-[#1e1e1e] z-50">
             <div className="p-2 border-b border-[#1e1e1e]">
               <input
                 autoFocus
                 value={pairSearch}
                 onChange={(e) => setPairSearch(e.target.value)}
                 placeholder="Search markets..."
-                className="w-full bg-[#0a0a0a] border border-[#222] text-[11px] text-[#ccc] px-2 py-1 outline-none placeholder:text-[#444]"
+                className="w-full min-h-11 md:min-h-0 bg-[#0a0a0a] border border-[#222] text-[11px] text-[#ccc] px-2 py-1 outline-none placeholder:text-[#444]"
                 style={{ fontFamily: "var(--font-jetbrains), monospace" }}
               />
             </div>
@@ -118,7 +118,7 @@ export default function TopBar({ ticker }: { ticker: TickerStreamState }) {
               <button
                 key={mk.symbol}
                 onClick={() => setActiveMarket(mk.symbol)}
-                className={`w-full flex items-center justify-between px-3 py-1.5 text-xs hover:bg-[#1a1a1a] transition-colors ${
+                className={`w-full flex min-h-11 md:min-h-0 items-center justify-between gap-3 px-3 py-1.5 text-xs hover:bg-[#1a1a1a] transition-colors ${
                   mk.symbol === activeMarket ? "text-white" : "text-[#999]"
                 }`}
                 style={{ fontFamily: "var(--font-jetbrains), monospace" }}
@@ -142,21 +142,30 @@ export default function TopBar({ ticker }: { ticker: TickerStreamState }) {
         )}
       </div>
 
-      <div className="h-4 w-px bg-[#1e1e1e] shrink-0" />
+      <div className="hidden md:block h-4 w-px bg-[#1e1e1e] shrink-0" />
+
+      <div className="order-3 min-w-0 flex-1 md:hidden" />
 
       {/* Mark price */}
-      <div className="shrink-0">
+      <div className="order-6 md:order-none shrink-0 ml-[52px] md:ml-0">
         <span
-          className="text-sm font-bold text-white"
+          className="text-xs md:text-sm font-bold text-white"
           style={{ fontFamily: "var(--font-jetbrains), monospace" }}
         >
           {ticker.loading || markPrice === null ? <PulseValue width="w-20" /> : `$${formatPrice(markPrice, activeMarket)}`}
         </span>
       </div>
 
+      <div className="order-5 basis-full h-0 md:hidden" />
+
       {/* Stats row */}
-      {stats.map(({ label, value, color, width }) => (
-        <div key={label} className="flex items-center gap-1.5 shrink-0">
+      {stats.map(({ label, value, color, width, mobile }) => (
+        <div
+          key={label}
+          className={`order-7 md:order-none flex items-center gap-1.5 shrink-0 ${
+            mobile ? "" : "max-md:hidden"
+          }`}
+        >
           <span className="text-[10px] text-[#555] tracking-wide" style={{ fontFamily: "var(--font-jetbrains), monospace" }}>
             {label}
           </span>
@@ -167,13 +176,13 @@ export default function TopBar({ ticker }: { ticker: TickerStreamState }) {
       ))}
 
       {/* Spacer */}
-      <div className="flex-1" />
+      <div className="hidden md:block flex-1" />
 
       {/* Wallet */}
       {walletConnected ? (
         <button
           onClick={() => setShowWalletModal(true)}
-          className="flex items-center gap-1.5 px-2.5 py-1 border border-[#222] text-[11px] text-[#ccc] hover:border-[#333] hover:text-white transition-colors shrink-0"
+          className="order-4 md:order-none flex min-h-11 md:min-h-0 items-center gap-1.5 px-2 md:px-2.5 py-1 border border-[#222] text-[10px] md:text-[11px] text-[#ccc] hover:border-[#333] hover:text-white transition-colors shrink-0 whitespace-nowrap"
           style={{ fontFamily: "var(--font-jetbrains), monospace" }}
         >
           <span className="w-1.5 h-1.5 rounded-full bg-[#22c55e] shrink-0" />
@@ -182,7 +191,7 @@ export default function TopBar({ ticker }: { ticker: TickerStreamState }) {
       ) : (
         <button
           onClick={() => setShowWalletModal(true)}
-          className="px-3 py-1 text-[11px] font-medium text-white bg-[#1a1a1a] border border-[#333] hover:border-[#555] transition-colors shrink-0"
+          className="order-4 md:order-none min-h-11 md:min-h-0 px-2 md:px-3 py-1 text-[10px] md:text-[11px] font-medium text-white bg-[#1a1a1a] border border-[#333] hover:border-[#555] transition-colors shrink-0 whitespace-nowrap"
           style={{ fontFamily: "var(--font-jetbrains), monospace" }}
         >
           Connect Wallet

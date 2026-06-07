@@ -26,15 +26,17 @@ function PulseRow() {
 export default function RecentTrades({
   symbol,
   marketSymbol,
+  fullHeight = false,
 }: {
   symbol: string;
   marketSymbol: string;
+  fullHeight?: boolean;
 }) {
   const { trades, loading } = useTradeStream(symbol);
   const displayTrades = [...trades].reverse();
 
   return (
-    <div className="flex flex-col" style={{ height: "40%", minHeight: 0 }}>
+    <div className="flex flex-col" style={{ height: fullHeight ? "100%" : "40%", minHeight: 0 }}>
       <div className="px-2 py-1.5 border-b border-[#1e1e1e] shrink-0">
         <span className="text-[10px] font-semibold text-[#888]" style={{ fontFamily: "var(--font-jetbrains), monospace" }}>
           Recent Trades

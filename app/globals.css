@@ -147,3 +147,15 @@ input[type="number"] { -moz-appearance: textfield; }
 
 /* Range input — hide default thumb for custom leverage slider overlay */
 input[type="range"]:focus { outline: none; }
+
+@media (max-width: 767px) {
+  html,
+  body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    overscroll-behavior-x: none;
+  }
+}

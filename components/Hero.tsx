@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const EASE = [0.25, 0.1, 0.25, 1] as const;
+const TOKEN_ADDRESS_DISPLAY = "BEd8S...V5pump";
 
 const FI = (delay: number, ready: boolean) => ({
   initial: { opacity: 0, y: 20 },
@@ -23,16 +24,16 @@ export default function Hero({ introReady }: { introReady: boolean }) {
   }, [copied]);
 
   const copyTokenAddress = async () => {
-    await navigator.clipboard.writeText("");
+    await navigator.clipboard.writeText(TOKEN_ADDRESS_DISPLAY);
     setCopied(true);
   };
 
   return (
-    <section className="pt-32 pb-20 px-6 text-center max-w-[1280px] mx-auto">
+    <section className="pt-28 md:pt-32 pb-16 md:pb-20 px-4 md:px-6 text-center max-w-[1280px] mx-auto">
       {/* Badge pill */}
       <motion.div
         {...FI(0, introReady)}
-        className="inline-flex items-center gap-2 px-4 py-1.5 mb-8 rounded-full border border-[#1e3a2f] bg-[#0a1a14] text-[#22c55e] text-xs"
+        className="inline-flex max-w-full flex-wrap items-center justify-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 mb-7 md:mb-8 rounded-full border border-[#1e3a2f] bg-[#0a1a14] text-[#22c55e] text-[10px] md:text-xs"
         style={{ fontFamily: "var(--font-jetbrains), monospace" }}
       >
         <span className="w-1.5 h-1.5 rounded-full bg-[#22c55e] animate-pulse shrink-0" />
@@ -43,7 +44,7 @@ export default function Hero({ introReady }: { introReady: boolean }) {
       {/* Headline */}
       <motion.h1
         {...FI(0.1, introReady)}
-        className="text-[clamp(3rem,8vw,6.5rem)] font-bold leading-[1.02] tracking-tight mb-6"
+        className="text-[clamp(2rem,10vw,3.5rem)] md:text-[clamp(3rem,8vw,6.5rem)] font-bold leading-[1.04] md:leading-[1.02] tracking-tight mb-5 md:mb-6"
         style={{ fontFamily: "var(--font-jetbrains), monospace" }}
       >
         GPU-native perps.
@@ -55,7 +56,7 @@ export default function Hero({ introReady }: { introReady: boolean }) {
       {/* Sub-headline */}
       <motion.p
         {...FI(0.2, introReady)}
-        className="max-w-[560px] mx-auto text-[#71717a] text-base leading-7 mb-10"
+        className="max-w-full md:max-w-[560px] mx-auto text-[#71717a] text-sm md:text-base leading-6 md:leading-7 mb-8 md:mb-10"
       >
         Orders enter a parallel matching engine. On-chain risk checks commit
         through Solana program state. USDC-margined accounts cover entries,
@@ -65,10 +66,10 @@ export default function Hero({ introReady }: { introReady: boolean }) {
       {/* CTA buttons */}
       <motion.div
         {...FI(0.3, introReady)}
-        className="flex items-center justify-center gap-3 mb-10"
+        className="flex w-full max-w-sm md:max-w-none mx-auto flex-col md:flex-row items-stretch md:items-center justify-center gap-3 mb-8 md:mb-10"
       >
         <span
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white buy-gradient opacity-50 cursor-not-allowed"
+          className="inline-flex min-h-11 w-full md:w-auto items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white buy-gradient opacity-50 cursor-not-allowed"
           style={{ fontFamily: "var(--font-jetbrains), monospace" }}
           title="TBA"
           aria-disabled="true"
@@ -77,7 +78,7 @@ export default function Hero({ introReady }: { introReady: boolean }) {
         </span>
         <Link
           href="/trade"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium text-[#a1a1aa] border border-[#333337] hover:border-[#444448] hover:text-white transition-colors"
+          className="inline-flex min-h-11 w-full md:w-auto items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium text-[#a1a1aa] border border-[#333337] hover:border-[#444448] hover:text-white transition-colors"
           style={{ fontFamily: "var(--font-jetbrains), monospace" }}
         >
           Launch App
@@ -90,14 +91,16 @@ export default function Hero({ introReady }: { introReady: boolean }) {
       {/* CA bar */}
       <motion.div
         {...FI(0.4, introReady)}
-        className="inline-flex items-center gap-3 px-4 py-2 rounded-lg bg-[#0d0d0f] border border-[#1a1a1c] text-xs"
+        className="inline-flex w-full max-w-[343px] md:w-auto md:max-w-none items-center gap-2 md:gap-3 px-3 md:px-4 py-1.5 md:py-2 rounded-lg bg-[#0d0d0f] border border-[#1a1a1c] text-[10px] md:text-xs"
         style={{ fontFamily: "var(--font-jetbrains), monospace" }}
       >
         <span className="text-[#52525b] shrink-0">TOKEN</span>
-        <span className="text-[#a1a1aa] select-all" />
+        <span className="min-w-0 flex-1 truncate text-center text-[#a1a1aa] select-all">
+          {TOKEN_ADDRESS_DISPLAY}
+        </span>
         <button
           onClick={copyTokenAddress}
-          className={`inline-flex items-center gap-1.5 transition-colors shrink-0 ${
+          className={`inline-flex h-11 min-w-11 md:h-auto md:min-w-0 items-center justify-center gap-1.5 transition-colors shrink-0 ${
             copied ? "text-[#22c55e]" : "text-[#52525b] hover:text-[#a1a1aa]"
           }`}
           title="Copy token address"
@@ -135,7 +138,7 @@ export default function Hero({ introReady }: { introReady: boolean }) {
       {/* Tagline pills */}
       <motion.div
         {...FI(0.5, introReady)}
-        className="flex items-center justify-center gap-6 mt-8 text-xs text-[#52525b]"
+        className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 md:gap-6 mt-8 text-[10px] md:text-xs text-[#52525b]"
         style={{ fontFamily: "var(--font-jetbrains), monospace" }}
       >
         {["Mainnet settlement", "Program-held margin", "Oracle guarded", "Open source"].map(

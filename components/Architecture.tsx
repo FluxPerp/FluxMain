@@ -37,7 +37,7 @@ const STEPS = [
 
 export default function Architecture() {
   return (
-    <section className="py-20 px-6 max-w-[1280px] mx-auto">
+    <section className="py-16 md:py-20 px-4 md:px-6 max-w-[1280px] mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -52,7 +52,7 @@ export default function Architecture() {
           SYSTEM PATH
         </p>
         <h2
-          className="text-3xl font-bold text-white"
+          className="text-2xl md:text-3xl font-bold text-white"
           style={{ fontFamily: "var(--font-jetbrains), monospace" }}
         >
           Orders become state, not promises.
@@ -181,7 +181,7 @@ export default function Architecture() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.4, delay: 0.2, ease: EASE }}
-        className="mt-6 border border-[#1a1a1c] bg-[#0d0d0f] p-5 flex flex-wrap gap-8"
+        className="mt-6 border border-[#1a1a1c] bg-[#0d0d0f] p-4 md:p-5 flex flex-wrap gap-4 md:gap-8"
         style={{ fontFamily: "var(--font-jetbrains), monospace" }}
       >
         {[

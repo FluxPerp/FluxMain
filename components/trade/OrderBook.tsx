@@ -23,9 +23,11 @@ function formatQty(value: number) {
 export default function OrderBook({
   symbol,
   marketSymbol,
+  fullHeight = false,
 }: {
   symbol: string;
   marketSymbol: string;
+  fullHeight?: boolean;
 }) {
   const [grouping, setGrouping] = useState("0.01");
   const { bids, asks, spread, spreadPercent, loading } = useDepthStream(symbol);
@@ -60,7 +62,10 @@ export default function OrderBook({
   );
 
   return (
-    <div className="flex flex-col border-b border-[#1e1e1e]" style={{ height: "60%", minHeight: 0 }}>
+    <div
+      className="flex flex-col border-b border-[#1e1e1e]"
+      style={{ height: fullHeight ? "100%" : "60%", minHeight: 0 }}
+    >
       {/* Header */}
       <div className="flex items-center justify-between px-2 py-1.5 border-b border-[#1e1e1e] shrink-0">
         <span className="text-[10px] font-semibold text-[#888]" style={{ fontFamily: "var(--font-jetbrains), monospace" }}>
@@ -69,7 +74,7 @@ export default function OrderBook({
         <select
           value={grouping}
           onChange={(e) => setGrouping(e.target.value)}
-          className="bg-[#0a0a0a] border border-[#1a1a1a] text-[9px] text-[#555] px-1 py-0.5 outline-none"
+          className="min-h-11 md:min-h-0 bg-[#0a0a0a] border border-[#1a1a1a] text-[9px] text-[#555] px-2 md:px-1 py-0.5 outline-none"
           style={{ fontFamily: "var(--font-jetbrains), monospace" }}
         >
           {["0.01", "0.1", "1"].map((g) => (

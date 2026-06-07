@@ -23,7 +23,7 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-bg">
+    <div className="min-h-screen overflow-x-hidden bg-bg">
       <AnimatePresence onExitComplete={() => setIntroReady(true)}>
         {loading && <PreloadScreen />}
       </AnimatePresence>

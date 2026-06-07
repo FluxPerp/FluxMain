@@ -63,13 +63,13 @@ function TickerItem({
 }) {
   return (
     <span
-      className="inline-flex items-center gap-2.5 shrink-0 px-6"
+      className="inline-flex items-center gap-1.5 md:gap-2.5 shrink-0 px-4 md:px-6"
       style={{ fontFamily: "var(--font-jetbrains), monospace" }}
     >
-      <span className="text-xs text-[#52525b] tracking-widest uppercase">
+      <span className="text-[10px] md:text-xs text-[#52525b] tracking-widest uppercase">
         {label}
       </span>
-      <span className="text-sm text-white font-semibold">
+      <span className="text-[10px] md:text-sm text-white font-semibold">
         <CountUpValue
           active={active}
           target={target}
@@ -88,12 +88,12 @@ export default function StatsTicker() {
 
   return (
     <div ref={ref} className="border-y border-[#1a1a1c] bg-[#09090b] overflow-hidden ticker-fade-left">
-      <div className="flex py-3 ticker-animate">
+      <div className="flex py-2.5 md:py-3 ticker-animate">
         {doubled.map((stat, i) => (
           <span key={i} className="flex items-center">
             <TickerItem active={inView} {...stat} />
             {i < doubled.length - 1 && (
-              <span className="text-[#1a1a1c] shrink-0 text-lg font-thin">|</span>
+              <span className="text-[#1a1a1c] shrink-0 text-sm md:text-lg font-thin">|</span>
             )}
           </span>
         ))}

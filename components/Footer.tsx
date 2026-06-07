@@ -25,7 +25,6 @@ const LINKS: Record<string, FooterLink[]> = {
   ],
   SOCIAL: [
     { label: "X", href: X_URL, external: true },
-    { label: "Discord", disabled: true },
     { label: "GitHub", href: GITHUB_URL, external: true },
   ],
 };
@@ -43,7 +42,7 @@ export default function Footer() {
       />
 
       {/* Links grid */}
-      <div className="max-w-[1280px] mx-auto px-6 py-12 grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div className="max-w-[1280px] mx-auto px-4 md:px-6 py-10 md:py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
         {Object.entries(LINKS).map(([section, links]) => (
           <div key={section}>
             <p
@@ -68,7 +67,7 @@ export default function Footer() {
                       href={link.href}
                       target={link.external ? "_blank" : undefined}
                       rel={link.external ? "noopener noreferrer" : undefined}
-                      className="text-sm text-[#71717a] hover:text-white transition-colors"
+                      className="flex min-h-11 md:min-h-0 items-center text-sm text-[#71717a] hover:text-white transition-colors"
                     >
                       {link.label}
                     </Link>
@@ -82,8 +81,8 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-[#1a1a1c]">
-        <div className="max-w-[1280px] mx-auto px-6 py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div className="flex items-center gap-2.5">
+        <div className="max-w-[1280px] mx-auto px-4 md:px-6 py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="flex items-start md:items-center gap-2.5">
             <Image
               src="/logo_without_background.png"
               alt="FluxPerp"
@@ -99,12 +98,12 @@ export default function Footer() {
             </span>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex w-full md:w-auto flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <Link
               href={X_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded border border-[#1a1a1c] text-xs text-[#52525b] hover:text-white hover:border-[#333337] transition-colors"
+              className="flex min-h-11 items-center justify-center gap-1.5 px-3 py-1.5 rounded border border-[#1a1a1c] text-xs text-[#52525b] hover:text-white hover:border-[#333337] transition-colors"
             >
               <svg
                 width="11"
@@ -120,7 +119,7 @@ export default function Footer() {
               href={GITHUB_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded border border-[#1a1a1c] text-xs text-[#52525b] hover:text-white hover:border-[#333337] transition-colors"
+              className="flex min-h-11 items-center justify-center gap-1.5 px-3 py-1.5 rounded border border-[#1a1a1c] text-xs text-[#52525b] hover:text-white hover:border-[#333337] transition-colors"
             >
               <svg
                 width="11"
@@ -133,7 +132,7 @@ export default function Footer() {
               GitHub
             </Link>
             <span
-              className="text-[11px] text-[#333337] ml-2"
+              className="text-[11px] text-[#333337] sm:ml-2"
               style={{ fontFamily: "var(--font-jetbrains), monospace" }}
             >
               Leveraged perps can lose collateral.

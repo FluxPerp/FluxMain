@@ -155,12 +155,12 @@ export default function TradingChart({
   return (
     <div className="flex flex-col h-full bg-[#0a0a0a]">
       {/* Timeframe selector */}
-      <div className="flex items-center gap-0 px-3 py-1.5 border-b border-[#1e1e1e] shrink-0">
+      <div className="flex items-center gap-0 px-2 md:px-3 py-1 md:py-1.5 border-b border-[#1e1e1e] shrink-0 overflow-x-auto trade-scroll">
         {TIMEFRAMES.map((tf) => (
           <button
             key={tf}
             onClick={() => setActiveTimeframe(tf)}
-            className={`px-2 py-0.5 text-[11px] transition-colors ${
+            className={`min-h-11 md:min-h-0 min-w-11 md:min-w-0 px-2 py-0.5 text-[11px] transition-colors ${
               activeTimeframe === tf
                 ? "text-white bg-[#1a1a1a]"
                 : "text-[#444] hover:text-[#999]"
@@ -171,7 +171,7 @@ export default function TradingChart({
           </button>
         ))}
         <div className="flex-1" />
-        <span className="text-[10px] text-[#333]" style={{ fontFamily: "var(--font-jetbrains), monospace" }}>
+        <span className="hidden sm:inline text-[10px] text-[#333]" style={{ fontFamily: "var(--font-jetbrains), monospace" }}>
           {marketSymbol} · GPU engine
         </span>
       </div>

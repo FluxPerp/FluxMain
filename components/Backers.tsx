@@ -15,7 +15,7 @@ const BACKERS = [
 
 export default function Backers() {
   return (
-    <section className="py-16 px-6 border-t border-[#1a1a1c]">
+    <section className="py-14 md:py-16 px-4 md:px-6 border-t border-[#1a1a1c]">
       <div className="max-w-[1280px] mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -29,11 +29,11 @@ export default function Backers() {
           >
             ECOSYSTEM
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-8">
+          <div className="flex flex-wrap items-center justify-center gap-3 md:gap-8">
             {BACKERS.map((b) => (
               <div
                 key={b.name}
-                className="flex items-center justify-center px-5 py-2.5 border border-[#1a1a1c] bg-[#0d0d0f] opacity-40 hover:opacity-70 transition-opacity"
+                className="flex min-h-11 items-center justify-center px-4 md:px-5 py-2.5 border border-[#1a1a1c] bg-[#0d0d0f] opacity-40 hover:opacity-70 transition-opacity"
               >
                 <span
                   className="text-xs text-[#71717a] tracking-[0.15em] font-medium"

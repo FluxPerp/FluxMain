@@ -69,41 +69,43 @@ export default function BottomPanel() {
 
   return (
     <div
-      className="flex flex-col bg-[#111111] border-t border-[#1e1e1e] shrink-0 transition-all"
-      style={{ height: bottomCollapsed ? "34px" : "200px" }}
+      className={`flex flex-col bg-[#111111] border-t border-[#1e1e1e] shrink-0 transition-all ${
+        bottomCollapsed ? "h-11 md:h-[34px]" : "h-[190px] md:h-[200px]"
+      }`}
     >
       {/* Tab bar */}
-      <div className="flex items-center border-b border-[#1e1e1e] shrink-0 h-[34px]">
-        {tabs.map((tab) => (
-          <button
-            key={tab.key}
-            onClick={() => { setActiveTab(tab.key); if (bottomCollapsed) toggleBottomPanel(); }}
-            className={`flex items-center gap-1.5 px-3 h-full text-[11px] border-b-2 transition-colors ${
-              activeTab === tab.key && !bottomCollapsed
-                ? "text-white border-white"
-                : "text-[#555] border-transparent hover:text-[#888]"
-            }`}
-            style={{ fontFamily: "var(--font-jetbrains), monospace" }}
-          >
-            {tab.label}
-            {tab.count !== undefined && tab.count > 0 && (
-              <span className="text-[9px] text-[#555] bg-[#1a1a1a] px-1 rounded-sm">{tab.count}</span>
-            )}
-          </button>
-        ))}
-        <div className="flex-1" />
+      <div className="flex items-center border-b border-[#1e1e1e] shrink-0 h-11 md:h-[34px]">
+        <div className="flex flex-1 h-full min-w-0 overflow-x-auto trade-scroll">
+          {tabs.map((tab) => (
+            <button
+              key={tab.key}
+              onClick={() => { setActiveTab(tab.key); if (bottomCollapsed) toggleBottomPanel(); }}
+              className={`flex shrink-0 items-center gap-1.5 px-3 h-full text-[10px] md:text-[11px] border-b-2 transition-colors ${
+                activeTab === tab.key && !bottomCollapsed
+                  ? "text-white border-white"
+                  : "text-[#555] border-transparent hover:text-[#888]"
+              }`}
+              style={{ fontFamily: "var(--font-jetbrains), monospace" }}
+            >
+              {tab.label}
+              {tab.count !== undefined && tab.count > 0 && (
+                <span className="text-[9px] text-[#555] bg-[#1a1a1a] px-1 rounded-sm">{tab.count}</span>
+              )}
+            </button>
+          ))}
+        </div>
         <button
           onClick={toggleBottomPanel}
-          className="px-3 text-[#444] hover:text-[#888] text-xs h-full transition-colors"
+          className="min-w-11 px-3 text-[#444] hover:text-[#888] text-xs h-full transition-colors shrink-0"
         >
           {bottomCollapsed ? "▲" : "▼"}
         </button>
       </div>
 
       {!bottomCollapsed && (
-        <div className="flex-1 min-h-0 overflow-y-auto" style={{ scrollbarWidth: "thin", scrollbarColor: "#222 transparent" }}>
+        <div className="flex-1 min-h-0 overflow-auto trade-scroll" style={{ scrollbarWidth: "thin", scrollbarColor: "#222 transparent" }}>
           {activeTab === "positions" && (
-            <table className="w-full border-collapse">
+            <table className="w-full min-w-[860px] border-collapse">
               <thead className="sticky top-0 bg-[#111111]">
                 <tr>
                   <TH>Market</TH><TH>Side</TH><TH right>Size</TH><TH right>Entry</TH>
@@ -133,7 +135,7 @@ export default function BottomPanel() {
                     <td className="py-1.5 px-2">
                       <button
                         onClick={() => closePosition(p.id)}
-                        className="text-[10px] text-[#555] hover:text-[#ef4444] border border-[#1a1a1a] hover:border-[#ef4444]/30 px-2 py-0.5 transition-colors"
+                        className="min-h-11 min-w-11 md:min-h-0 md:min-w-0 text-[10px] text-[#555] hover:text-[#ef4444] border border-[#1a1a1a] hover:border-[#ef4444]/30 px-2 py-0.5 transition-colors"
                         style={{ fontFamily: "var(--font-jetbrains), monospace" }}
                       >
                         Close
@@ -146,7 +148,7 @@ export default function BottomPanel() {
           )}
 
           {activeTab === "orders" && (
-            <table className="w-full border-collapse">
+            <table className="w-full min-w-[720px] border-collapse">
               <thead className="sticky top-0 bg-[#111111]">
                 <tr>
                   <TH>Market</TH><TH>Type</TH><TH>Side</TH><TH right>Price</TH>
@@ -168,7 +170,7 @@ export default function BottomPanel() {
                     <td className="py-1.5 px-2">
                       <button
                         onClick={() => cancelOrder(o.id)}
-                        className="text-[10px] text-[#555] hover:text-[#ef4444] border border-[#1a1a1a] hover:border-[#ef4444]/30 px-2 py-0.5 transition-colors"
+                        className="min-h-11 min-w-11 md:min-h-0 md:min-w-0 text-[10px] text-[#555] hover:text-[#ef4444] border border-[#1a1a1a] hover:border-[#ef4444]/30 px-2 py-0.5 transition-colors"
                         style={{ fontFamily: "var(--font-jetbrains), monospace" }}
                       >
                         Cancel
@@ -181,7 +183,7 @@ export default function BottomPanel() {
           )}
 
           {activeTab === "history" && (
-            <table className="w-full border-collapse">
+            <table className="w-full min-w-[760px] border-collapse">
               <thead className="sticky top-0 bg-[#111111]">
                 <tr>
                   <TH>Market</TH><TH>Type</TH><TH>Side</TH>
@@ -210,7 +212,7 @@ export default function BottomPanel() {
           )}
 
           {activeTab === "assets" && (
-            <table className="w-full border-collapse">
+            <table className="w-full min-w-[560px] border-collapse">
               <thead className="sticky top-0 bg-[#111111]">
                 <tr>
                   <TH>Asset</TH><TH right>Balance</TH><TH right>Available</TH>

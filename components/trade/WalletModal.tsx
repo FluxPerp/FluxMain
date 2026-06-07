@@ -63,16 +63,16 @@ export default function WalletModal() {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
       onClick={(e) => { if (e.target === e.currentTarget) setShowWalletModal(false); }}
       style={{ backgroundColor: "rgba(0,0,0,0.75)" }}
     >
-      <div className="w-80 bg-[#111111] border border-[#1e1e1e]">
+      <div className="w-full max-w-80 bg-[#111111] border border-[#1e1e1e]">
         <div className="flex items-center justify-between px-4 py-3 border-b border-[#1e1e1e]">
           <h2 className="text-sm font-semibold text-white" style={{ fontFamily: "var(--font-jetbrains), monospace" }}>
             {walletConnected ? "Wallet" : "Connect Wallet"}
           </h2>
-          <button onClick={() => setShowWalletModal(false)} className="text-[#555] hover:text-white transition-colors text-lg leading-none">×</button>
+          <button onClick={() => setShowWalletModal(false)} className="min-h-11 min-w-11 md:min-h-0 md:min-w-0 text-[#555] hover:text-white transition-colors text-lg leading-none">×</button>
         </div>
 
         {walletConnected ? (
@@ -97,7 +97,7 @@ export default function WalletModal() {
             </div>
             <button
               onClick={() => { disconnectWallet(); setShowWalletModal(false); }}
-              className="w-full py-2 text-xs text-[#ef4444] border border-[#2a1515] hover:bg-[#1a0a0a] transition-colors"
+              className="w-full min-h-11 md:min-h-0 py-2 text-xs text-[#ef4444] border border-[#2a1515] hover:bg-[#1a0a0a] transition-colors"
               style={{ fontFamily: "var(--font-jetbrains), monospace" }}
             >
               Disconnect
@@ -110,7 +110,7 @@ export default function WalletModal() {
                 key={w.id}
                 onClick={() => handleConnect(w)}
                 disabled={!!connecting}
-                className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-[#1a1a1a] transition-colors text-left"
+                className="w-full min-h-11 flex items-center gap-3 px-3 py-2.5 hover:bg-[#1a1a1a] transition-colors text-left"
               >
                 {w.icon}
                 <span className="text-sm text-[#ccc] hover:text-white" style={{ fontFamily: "var(--font-jetbrains), monospace" }}>
