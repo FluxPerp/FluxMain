@@ -1,5 +1,6 @@
+@layer fumadocs;
+@import "fumadocs-ui/style.css" layer(fumadocs);
 @import "tailwindcss";
-@import "fumadocs-ui/style.css";
 
 :root {
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
