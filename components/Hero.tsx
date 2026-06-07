@@ -2,10 +2,8 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 const EASE = [0.25, 0.1, 0.25, 1] as const;
-const TOKEN_ADDRESS_DISPLAY = "BEd8S...V5pump";
 
 const FI = (delay: number, ready: boolean) => ({
   initial: { opacity: 0, y: 20 },
@@ -14,20 +12,6 @@ const FI = (delay: number, ready: boolean) => ({
 });
 
 export default function Hero({ introReady }: { introReady: boolean }) {
-  const [copied, setCopied] = useState(false);
-
-  useEffect(() => {
-    if (!copied) return;
-
-    const timeout = window.setTimeout(() => setCopied(false), 2000);
-    return () => window.clearTimeout(timeout);
-  }, [copied]);
-
-  const copyTokenAddress = async () => {
-    await navigator.clipboard.writeText(TOKEN_ADDRESS_DISPLAY);
-    setCopied(true);
-  };
-
   return (
     <section className="pt-28 md:pt-32 pb-16 md:pb-20 px-4 md:px-6 text-center max-w-[1280px] mx-auto">
       {/* Headline */}
@@ -84,44 +68,9 @@ export default function Hero({ introReady }: { introReady: boolean }) {
         style={{ fontFamily: "var(--font-jetbrains), monospace" }}
       >
         <span className="text-[#52525b] shrink-0">TOKEN</span>
-        <span className="min-w-0 flex-1 truncate text-center text-[#a1a1aa] select-all">
-          {TOKEN_ADDRESS_DISPLAY}
+        <span className="min-w-0 flex-1 truncate text-center text-[#a1a1aa] opacity-50">
+          TBA
         </span>
-        <button
-          onClick={copyTokenAddress}
-          className={`inline-flex h-11 min-w-11 md:h-auto md:min-w-0 items-center justify-center gap-1.5 transition-colors shrink-0 ${
-            copied ? "text-[#22c55e]" : "text-[#52525b] hover:text-[#a1a1aa]"
-          }`}
-          title="Copy token address"
-        >
-          {copied ? (
-            <>
-              <svg
-                width="13"
-                height="13"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path d="M20 6L9 17l-5-5" />
-              </svg>
-              <span>Copied!</span>
-            </>
-          ) : (
-            <svg
-              width="13"
-              height="13"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-              <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
-            </svg>
-          )}
-        </button>
       </motion.div>
 
       {/* Tagline pills */}
