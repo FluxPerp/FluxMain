@@ -1,0 +1,24 @@
+---
+title: Fee Structure
+description: Trading, funding, and liquidation fees on FluxPerp.
+---
+
+FluxPerp charges fees in USDC. Fees are deducted from the user's margin account
+when trades settle.
+
+| Fee type | Typical value |
+|---|---|
+| Maker fee | 0.01% |
+| Taker fee | 0.02% |
+| Liquidation fee | 1.00% |
+| Funding | Variable |
+
+## Maker and taker
+
+Maker orders add resting liquidity to the book. Taker orders remove liquidity by
+matching immediately against resting orders.
+
+## Liquidation
+
+Liquidation fees compensate liquidators and contribute to insurance reserves.
+See [Liquidation](/docs/core-concepts/liquidation) for mechanics.

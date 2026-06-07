@@ -1,0 +1,35 @@
+---
+title: Integration Guide
+description: Build trading integrations with the FluxPerp SDK.
+---
+
+Use the SDK when you need signed trading operations, account reconciliation, and
+stream subscriptions from one client.
+
+## Install
+
+```bash
+npm install @fluxperp/sdk
+```
+
+## Connect
+
+```typescript
+import { FluxClient } from "@fluxperp/sdk";
+
+const client = new FluxClient({
+  network: "mainnet",
+  wallet,
+});
+```
+
+## Recommended flow
+
+1. Fetch market metadata.
+2. Subscribe to account and fill streams.
+3. Submit signed order intents.
+4. Reconcile fills against positions and margin state.
+
+<Callout type="tip">
+For raw HTTP endpoints, see [REST Endpoints](/docs/api-reference/rest-endpoints).
+</Callout>

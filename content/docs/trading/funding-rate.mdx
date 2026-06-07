@@ -1,0 +1,24 @@
+---
+title: Funding Rate
+description: Funding payments for FluxPerp perpetual markets.
+---
+
+Funding is a periodic payment exchanged between long and short traders. It
+helps keep perpetual prices close to the index price.
+
+## Direction
+
+| Market condition | Typical payment |
+|---|---|
+| Perp above index | Longs pay shorts |
+| Perp below index | Shorts pay longs |
+
+## Timing
+
+FluxPerp snapshots funding every 8 hours. Funding changes margin balance, not
+position size.
+
+## Where to see it
+
+The active market top bar displays current funding and time until the next
+snapshot.

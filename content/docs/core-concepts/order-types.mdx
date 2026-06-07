@@ -1,0 +1,135 @@
+---
+title: Order Types
+description: Reference for all order types supported by the FluxPerp matching engine.
+---
+
+FluxPerp supports five order types. All orders are submitted to the matching engine via the REST API or WebSocket. The engine processes them in priority order: market first, then limit by price-time, then conditional triggers.
+
+## Market
+
+A market order fills immediately against the best available resting liquidity. If the order size exceeds the top-of-book depth, it walks the book and fills at progressively worse prices.
+
+<ParamTable params={[
+  { name: "market", type: "string", required: true, description: "Market identifier, e.g. SOL-PERP" },
+  { name: "side", type: '"long" | "short"', required: true, description: "Direction of the trade" },
+  { name: "type", type: '"market"', required: true, description: "Must be \"market\"" },
+  { name: "size", type: "number", required: true, description: "Position size in base units (e.g. SOL)" },
+  { name: "leverage", type: "number", required: true, description: "Desired leverage, 1–50" },
+  { name: "reduceOnly", type: "boolean", required: false, default: "false", description: "If true, order will only reduce an existing position, never open or increase" },
+]} />
+
+Market orders are not guaranteed to fill at the displayed mark price. Use `slippageTolerance` to protect against large fills.
+
+```typescript
+await client.placeOrder({
+  market: "BTC-PERP",
+  side: "long",
+  type: "market",
+  size: 0.01,
+  leverage: 20,
+  slippageTolerance: 0.005,  // 0.5% max slippage
+});
+```
+
+## Limit
+
+A limit order rests in the order book until filled, cancelled, or expired. It will only fill at the specified price or better.
+
+<ParamTable params={[
+  { name: "market", type: "string", required: true, description: "Market identifier" },
+  { name: "side", type: '"long" | "short"', required: true, description: "Direction of the trade" },
+  { name: "type", type: '"limit"', required: true, description: "Must be \"limit\"" },
+  { name: "size", type: "number", required: true, description: "Order size in base units" },
+  { name: "price", type: "number", required: true, description: "Limit price in USDC" },
+  { name: "leverage", type: "number", required: true, description: "Desired leverage, 1–50" },
+  { name: "timeInForce", type: '"GTC" | "IOC" | "FOK" | "GTD"', required: false, default: "GTC", description: "Time-in-force policy" },
+  { name: "expiry", type: "number", required: false, description: "Unix timestamp (seconds). Required when timeInForce is GTD" },
+  { name: "postOnly", type: "boolean", required: false, default: "false", description: "Reject the order if it would immediately match (maker-only)" },
+  { name: "reduceOnly", type: "boolean", required: false, default: "false", description: "Only reduce an existing position" },
+]} />
+
+### Time-in-force
+
+| Value | Behavior |
+|---|---|
+| `GTC` | Rests in book until filled or cancelled |
+| `IOC` | Fill what's available immediately, cancel the rest |
+| `FOK` | Fill the entire size immediately or cancel entirely |
+| `GTD` | Rest until `expiry` timestamp, then cancel |
+
+```typescript
+await client.placeOrder({
+  market: "ETH-PERP",
+  side: "short",
+  type: "limit",
+  size: 0.5,
+  price: 3900.00,
+  leverage: 5,
+  timeInForce: "GTD",
+  expiry: Math.floor(Date.now() / 1000) + 3600,  // 1 hour from now
+  postOnly: true,
+});
+```
+
+## Stop Market
+
+A stop market order is dormant until the mark price crosses the `triggerPrice`. At that point it becomes a market order and fills at the best available price.
+
+<ParamTable params={[
+  { name: "market", type: "string", required: true, description: "Market identifier" },
+  { name: "side", type: '"long" | "short"', required: true, description: "Direction of the trade" },
+  { name: "type", type: '"stopMarket"', required: true, description: "Must be \"stopMarket\"" },
+  { name: "size", type: "number", required: true, description: "Order size in base units" },
+  { name: "triggerPrice", type: "number", required: true, description: "Price at which the order activates" },
+  { name: "leverage", type: "number", required: true, description: "Desired leverage" },
+  { name: "reduceOnly", type: "boolean", required: false, default: "false", description: "Reduce-only flag" },
+]} />
+
+<Callout type="warning">
+Stop orders trigger on mark price, not last trade price. Mark price is derived from oracle feeds with a dampening window. In extreme volatility, mark price may differ from trade price by 0.1–0.5%.
+</Callout>
+
+## Stop Limit
+
+A stop limit order activates when mark price crosses `triggerPrice`, then places a limit order at `price`.
+
+<ParamTable params={[
+  { name: "market", type: "string", required: true, description: "Market identifier" },
+  { name: "side", type: '"long" | "short"', required: true, description: "Direction of the trade" },
+  { name: "type", type: '"stopLimit"', required: true, description: "Must be \"stopLimit\"" },
+  { name: "size", type: "number", required: true, description: "Order size in base units" },
+  { name: "triggerPrice", type: "number", required: true, description: "Price that activates the order" },
+  { name: "price", type: "number", required: true, description: "Limit price placed after trigger" },
+  { name: "leverage", type: "number", required: true, description: "Desired leverage" },
+  { name: "timeInForce", type: '"GTC" | "IOC" | "FOK"', required: false, default: "GTC", description: "TIF for the activated limit order" },
+]} />
+
+Unlike stop market orders, stop limit orders guarantee a price floor. The trade-off is that the order may not fill if the market moves through the limit price too quickly.
+
+## Take Profit
+
+A take profit order activates when mark price reaches `triggerPrice` in the profit direction.
+
+```typescript
+// Open a long, then immediately set a take-profit
+const position = await client.placeOrder({
+  market: "SOL-PERP",
+  side: "long",
+  type: "market",
+  size: 10,
+  leverage: 5,
+});
+
+await client.placeOrder({
+  market: "SOL-PERP",
+  side: "short",       // closing a long requires a short order
+  type: "takeProfit",
+  size: 10,
+  triggerPrice: 200.00,
+  reduceOnly: true,
+});
+```
+
+<Callout type="note">
+Conditional orders (stop, take profit) are held in the matching engine's conditional queue, not the live order book. They are not visible to other market participants until triggered.
+</Callout>

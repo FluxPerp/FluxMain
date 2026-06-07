@@ -1,0 +1,25 @@
+---
+title: Funding Rate
+description: How periodic funding transfers keep perpetual markets anchored to spot prices.
+---
+
+Funding is exchanged between longs and shorts every 8 hours. When the perpetual
+price trades above the index price, longs typically pay shorts. When it trades
+below, shorts typically pay longs.
+
+## Calculation inputs
+
+- Index price from oracle feeds
+- Mark price from the book and oracle guardrails
+- Premium over the funding window
+- Interest-rate adjustment for USDC collateral
+
+## Payment
+
+Funding is debited or credited in USDC margin. It does not close the position;
+it changes the account's collateral balance.
+
+<Callout type="note">
+Funding can be positive or negative. Always check the active rate before
+holding leveraged positions across funding snapshots.
+</Callout>

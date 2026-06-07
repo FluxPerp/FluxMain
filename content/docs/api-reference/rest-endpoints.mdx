@@ -1,0 +1,24 @@
+---
+title: REST Endpoints
+description: REST API endpoints for markets, orders, positions, and account state.
+---
+
+The REST API exposes market data and account actions for trading clients.
+
+<APIEndpoint method="GET" path="/v1/markets" description="List supported perpetual markets" />
+<APIEndpoint method="GET" path="/v1/orderbook/:market" description="Read top-of-book depth" />
+<APIEndpoint method="POST" path="/v1/orders" description="Place a signed order intent" />
+<APIEndpoint method="DELETE" path="/v1/orders/:id" description="Cancel an open order" />
+<APIEndpoint method="GET" path="/v1/account" description="Read balances and positions" />
+
+## Authentication
+
+Private endpoints require a wallet-derived session signature. Public market data
+endpoints can be requested without authentication.
+
+<ParamTable params={[
+  { name: "market", type: "string", required: true, description: "Market symbol such as SOL-PERP" },
+  { name: "side", type: '"long" | "short"', required: true, description: "Trade direction" },
+  { name: "size", type: "number", required: true, description: "Order size in base units" },
+  { name: "price", type: "number", required: false, description: "Limit price in USDC" },
+]} />

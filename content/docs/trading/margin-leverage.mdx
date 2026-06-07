@@ -1,0 +1,25 @@
+---
+title: Margin and Leverage
+description: Margin, leverage, and collateral requirements for FluxPerp trading.
+---
+
+Margin is the USDC collateral backing a position. Leverage increases notional
+exposure relative to collateral.
+
+## Example
+
+| Input | Value |
+|---|---|
+| Position notional | 5,000 USDC |
+| Leverage | 10x |
+| Initial margin | 500 USDC |
+
+## Risk
+
+Leverage magnifies PnL and liquidation risk. A 10x position can be liquidated
+after a much smaller adverse price move than a 2x position.
+
+<Callout type="warning">
+Do not size positions based only on available leverage. Use liquidation price
+and funding rate before opening a trade.
+</Callout>

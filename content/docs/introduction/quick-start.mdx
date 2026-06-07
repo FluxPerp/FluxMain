@@ -1,0 +1,147 @@
+---
+title: Quick Start
+description: Connect a wallet, deposit USDC, and place your first perpetual futures order on FluxPerp.
+---
+
+This guide takes you from zero to an open position. It assumes you have a Solana wallet (Phantom or Backpack) funded with USDC on mainnet.
+
+## 1. Connect wallet
+
+Navigate to [app.fluxperp.io](https://app.fluxperp.io) and click **Connect** in the top-right corner. Select your wallet. FluxPerp requests a sign-in signature to derive your session key — this does not authorize any transactions.
+
+## 2. Deposit collateral
+
+All positions on FluxPerp are USDC-collateralized. Open the **Portfolio** panel and click **Deposit**.
+
+```
+Minimum deposit: 10 USDC
+Maximum deposit (per transaction): 100,000 USDC
+```
+
+The deposit transaction calls `deposit_collateral` on the settlement program. Funds are locked in a PDA controlled by the program; no EOA or multisig can move them without a valid proof from the matching engine.
+
+Deposit confirmation takes 1–3 Solana slots (~400–1200 ms).
+
+## 3. Select a market
+
+The default view opens on SOL-PERP. Use the market selector in the top bar to switch between available pairs. Each market shows:
+
+- **Mark price** — derived from oracle feeds, used for PnL and liquidation
+- **Last price** — last matched trade price
+- **24h funding** — annualized rate, positive = longs pay shorts
+- **OI** — open interest in USD notional
+
+## 4. Place an order
+
+<Callout type="note">
+All examples use the TypeScript SDK. The same operations are available through the REST API and the trading UI.
+</Callout>
+
+### Install the SDK
+
+```bash
+npm install @fluxperp/sdk
+```
+
+### Initialize a client
+
+```typescript
+import { FluxClient } from "@fluxperp/sdk";
+import { Connection, Keypair } from "@solana/web3.js";
+
+const connection = new Connection("https://api.mainnet-beta.solana.com");
+const wallet = Keypair.fromSecretKey(/* your key bytes */);
+
+const client = new FluxClient({
+  connection,
+  wallet,
+  network: "mainnet",
+});
+```
+
+### Deposit collateral
+
+```typescript
+const txSignature = await client.depositCollateral({
+  amount: 500, // USDC, not lamports
+});
+console.log("Deposit confirmed:", txSignature);
+```
+
+### Place a market order
+
+```typescript
+const order = await client.placeOrder({
+  market: "SOL-PERP",
+  side: "long",
+  type: "market",
+  size: 1.5,        // SOL
+  leverage: 10,
+});
+
+console.log("Order ID:", order.orderId);
+console.log("Fill price:", order.fillPrice);
+console.log("Position size:", order.position.size);
+```
+
+### Place a limit order
+
+```typescript
+const limitOrder = await client.placeOrder({
+  market: "SOL-PERP",
+  side: "long",
+  type: "limit",
+  size: 2.0,
+  price: 155.00,
+  leverage: 5,
+  timeInForce: "GTC",  // Good-till-cancelled
+});
+
+console.log("Resting order ID:", limitOrder.orderId);
+```
+
+### Close a position
+
+```typescript
+await client.closePosition({
+  market: "SOL-PERP",
+  size: "full",  // or a partial size like 0.5
+});
+```
+
+## 5. Monitor your position
+
+```typescript
+const position = await client.getPosition("SOL-PERP");
+
+console.log({
+  size:         position.size,
+  side:         position.side,
+  entryPrice:   position.entryPrice,
+  markPrice:    position.markPrice,
+  unrealizedPnl: position.unrealizedPnl,
+  liquidationPrice: position.liquidationPrice,
+});
+```
+
+<Callout type="warning">
+Monitor your liquidation price. If mark price crosses it, the settlement program will close your position and charge a liquidation fee. There is no grace period.
+</Callout>
+
+## Testnet
+
+A public testnet is available at `app-testnet.fluxperp.io`. Use devnet USDC from the faucet at `faucet.fluxperp.io`. The testnet matching engine runs the same binary as mainnet but settles on Solana devnet.
+
+```typescript
+const client = new FluxClient({
+  connection: new Connection("https://api.devnet.solana.com"),
+  wallet,
+  network: "testnet",
+});
+```
+
+## Next steps
+
+- [Order Types](/docs/core-concepts/order-types) — full reference for order parameters
+- [Margin and Leverage](/docs/core-concepts/margin-leverage) — how collateral and leverage work
+- [Liquidation](/docs/core-concepts/liquidation) — liquidation mechanics and how to avoid it

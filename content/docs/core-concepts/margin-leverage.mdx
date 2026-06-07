@@ -1,0 +1,34 @@
+---
+title: Margin and Leverage
+description: How FluxPerp calculates collateral requirements and leverage limits.
+---
+
+FluxPerp uses USDC margin for all markets. A position's notional value is
+divided by selected leverage to determine initial margin.
+
+## Initial margin
+
+```
+initial_margin = position_notional / leverage
+```
+
+Example: a 1,000 USDC position at 10x leverage requires 100 USDC initial
+margin.
+
+## Cross and isolated margin
+
+Cross margin shares collateral across positions. Isolated margin caps the
+collateral allocated to one position. Cross margin improves capital efficiency;
+isolated margin provides clearer maximum-loss boundaries.
+
+## Leverage caps
+
+| Market type | Max leverage |
+|---|---|
+| Major markets | 50x |
+| Mid-cap markets | 20x |
+| High-volatility markets | 10x |
+
+<Callout type="warning">
+Higher leverage reduces the distance between entry price and liquidation price.
+</Callout>

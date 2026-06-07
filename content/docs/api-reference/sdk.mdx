@@ -1,0 +1,36 @@
+---
+title: SDK
+description: SDK modules and usage examples for FluxPerp.
+---
+
+The TypeScript SDK wraps REST, WebSocket, and account helpers.
+
+```bash
+npm install @fluxperp/sdk
+```
+
+```typescript
+import { FluxClient } from "@fluxperp/sdk";
+
+const client = new FluxClient({
+  network: "mainnet",
+  wallet,
+});
+
+await client.placeOrder({
+  market: "SOL-PERP",
+  side: "long",
+  type: "market",
+  size: 1,
+  leverage: 10,
+});
+```
+
+## Modules
+
+| Module | Purpose |
+|---|---|
+| `markets` | Market metadata and tick sizes |
+| `orders` | Place, cancel, and query orders |
+| `positions` | Read and close positions |
+| `streams` | Subscribe to fills and book updates |

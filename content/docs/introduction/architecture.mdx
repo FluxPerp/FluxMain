@@ -1,0 +1,29 @@
+---
+title: Architecture
+description: How FluxPerp routes orders through GPU matching and Solana settlement.
+---
+
+FluxPerp separates matching from settlement. The matching engine keeps the
+central limit order book in GPU memory, while the Solana settlement program
+verifies state transitions for collateral, positions, liquidation, and funding.
+
+## System path
+
+1. Clients submit signed order intents through REST, WebSocket, SDK, or the UI.
+2. The matching engine batches compatible orders by market and price level.
+3. Risk checks validate margin, leverage, reduce-only flags, and liquidation state.
+4. Net fills are committed to Solana program state.
+
+## Main components
+
+| Component | Role |
+|---|---|
+| Matching engine | Maintains order books and fills taker flow |
+| Settlement program | Updates collateral, positions, and liquidation state |
+| Oracle layer | Supplies mark prices for margin and funding |
+| Public API | Exposes markets, orders, account state, and streams |
+
+<Callout type="tip">
+The matching engine optimizes throughput, but user collateral remains governed
+by Solana program rules.
+</Callout>

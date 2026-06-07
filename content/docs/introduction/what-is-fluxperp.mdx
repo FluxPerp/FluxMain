@@ -1,0 +1,46 @@
+---
+title: What is FluxPerp
+description: An overview of the FluxPerp protocol — GPU-accelerated perpetual futures on Solana.
+---
+
+FluxPerp is a perpetual futures exchange built on Solana. The matching engine runs on a GPU cluster that processes order events off-chain and settles net state transitions on-chain in batches. This architecture separates throughput-bound work (matching) from consensus-bound work (finality), which is why FluxPerp can sustain sub-millisecond matching latency while preserving non-custodial settlement guarantees.
+
+## What it does
+
+Users deposit collateral into a margin account controlled by a Solana program. From there they can open leveraged long or short positions on perpetual contracts. Positions accrue or pay funding every 8 hours. The protocol never holds user funds in a hot wallet — all withdrawals are processed through the on-chain program with a cryptographic proof from the matching engine.
+
+## What it is not
+
+FluxPerp is not a spot exchange. There is no token-to-token swapping, no liquidity pools, and no automated market maker. All price discovery happens through a central limit order book (CLOB) maintained by the matching engine.
+
+FluxPerp is not a copy of dYdX or Drift. Those protocols have different trade-offs around decentralization of the sequencer. FluxPerp's matching engine is operated by the protocol team with a roadmap toward permissionless validation; the current design prioritizes performance and auditability over sequencer decentralization.
+
+## Key numbers
+
+| Metric | Value |
+|---|---|
+| Matching latency (p99) | < 1 ms |
+| Supported markets | SOL-PERP, BTC-PERP, ETH-PERP, JUP-PERP |
+| Max leverage | 50× |
+| Settlement | Solana mainnet-beta |
+| Collateral | USDC |
+
+## How the pieces fit
+
+The protocol has three main components:
+
+**Matching engine** — A GPU-resident process that maintains the order book and matches taker orders against resting limit orders. State is snapshotted periodically and a Merkle root is published on-chain.
+
+**Settlement program** — A Solana program (`FluxSettlement...`) that processes deposits, withdrawals, and liquidations. It verifies proofs from the matching engine before updating balances.
+
+**Oracle network** — A set of price feeds (Pyth primary, Switchboard fallback) that the settlement program reads to determine mark price for PnL and liquidation threshold calculations.
+
+<Callout type="note">
+The matching engine snapshot is published to Arweave every 256 batches. Anyone can reconstruct the full order history and verify that the on-chain state is consistent with matching engine output.
+</Callout>
+
+## Next steps
+
+- [Quick Start](/docs/introduction/quick-start) — deposit collateral and place your first order
+- [Architecture](/docs/introduction/architecture) — detailed breakdown of each subsystem
+- [Order Types](/docs/core-concepts/order-types) — market, limit, stop, and conditional orders
