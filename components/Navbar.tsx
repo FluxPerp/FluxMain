@@ -77,14 +77,14 @@ export default function Navbar() {
             FluxPerp
           </Link>
 
-          {/* Buy $FLUX */}
+          {/* Buy $FUPERP */}
           <span
             className="buy-gradient-border flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium text-white opacity-50 cursor-not-allowed"
             style={{ fontFamily: "var(--font-jetbrains), monospace" }}
             title="TBA"
             aria-disabled="true"
           >
-            Get $FLUX
+            Get $FUPERP
           </span>
         </div>
 
@@ -150,7 +150,7 @@ export default function Navbar() {
             title="TBA"
             aria-disabled="true"
           >
-            Get $FLUX
+            Get $FUPERP
           </span>
         </div>
       </div>

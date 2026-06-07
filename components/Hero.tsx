@@ -63,7 +63,7 @@ export default function Hero({ introReady }: { introReady: boolean }) {
           title="TBA"
           aria-disabled="true"
         >
-          Get $FLUX on pump.fun -&gt;
+          Get $FUPERP on pump.fun -&gt;
         </span>
         <Link
           href="/trade"
